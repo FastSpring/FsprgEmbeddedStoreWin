@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using Fsprg;
+using FsprgEmbeddedStore;
 
 namespace TestApp
 {
@@ -15,7 +15,7 @@ namespace TestApp
             confirmationView.Visibility = Visibility.Hidden;
 
             DataContext = new DataContext();
-            DataContext.Controller = new EmbeddedStoreController();
+            DataContext.Controller = new Controller();
             DataContext.Controller.WebView = webBrowser;
             DataContext.Controller.DidReceiveOrder += DidReceiveOrder;
             DataContext.Parameters = new StoreParameters();
@@ -58,10 +58,10 @@ namespace TestApp
         }
     }
 
-    class DataContext
+    internal class DataContext
     {
         public StoreParameters Parameters { get; set; }
-        public EmbeddedStoreController Controller { get; set; }
+        public Controller Controller { get; set; }
     }
 
 }
