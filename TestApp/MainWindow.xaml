@@ -1,0 +1,38 @@
+﻿<Window x:Class="TestApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="FsprgEmbeddedStore TestApp" Height="500" Width="525">
+    <Grid>
+        <TabControl Name="tabControl" SelectionChanged="tabControl_SelectionChanged">
+            <TabItem Header="Settings" Name="settings">
+                <Grid>
+                    <Label Content="Order Process" Height="23" HorizontalAlignment="Left" Margin="7,18,0,0" Name="orderProcessLabel" VerticalAlignment="Top" Width="83" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="96,18,0,0" Name="orderProcessField" VerticalAlignment="Top" Width="140" TabIndex="0" Text="{Binding Path=Parameters.OrderProcess}">
+                        <ComboBoxItem Content="detail" />
+                        <ComboBoxItem Content="instant" />
+                    </ComboBox>
+                    <Label Content="Store Id" Height="23" HorizontalAlignment="Left" Margin="7,47,0,0" Name="storeIdLabel" VerticalAlignment="Top" Width="83" />
+                    <TextBox Height="23" Margin="96,49,0,0" Name="storeIdField" VerticalAlignment="Top" Text="{Binding Path=Parameters.StoreId}" TabIndex="1" HorizontalAlignment="Left" Width="140" />
+                    <Label Content="Product Id" Height="23" Margin="258,47,0,0" Name="productIdLabel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
+                    <TextBox Height="23" Margin="346,49,0,0" Name="productIdField" VerticalAlignment="Top" Text="{Binding Path=Parameters.ProductId}" TabIndex="2" HorizontalAlignment="Left" Width="140" />
+                    <GroupBox Header="FastSpring Store URL" Margin="7,0,6,6" Name="storeUrlBox" Height="91" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
+                        <TextBlock Height="66" Name="storeUrlField" Text="{Binding Path=Parameters.ToURL}" />
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Preview" Name="preview">
+                <Grid>
+                    <Grid.Resources>
+                        <BooleanToVisibilityConverter x:Key="boolToVis" />
+                    </Grid.Resources>
+
+                    <WebBrowser Margin="6,35,6,22" Name="webBrowser" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                    <Button Content="Reload" Height="23" HorizontalAlignment="Left" Margin="6,6,0,0" Name="reloadButton" VerticalAlignment="Top" Width="45" Click="reloadButton_Click" />
+                    <TextBox Height="23" Margin="57,6,6,0" Name="urlField" VerticalAlignment="Top" Text="{Binding Path=Parameters.ToURL, Mode=OneWay}" Focusable="false"/>
+                    <Label Margin="6,35,6,22" Name="confirmationView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="Order Confirmation" FontFamily="Lucida Console"/>
+                    <ProgressBar HorizontalAlignment="Right" Margin="0,0,6,6" Name="loadingProgressBar" Width="100" IsIndeterminate="True" Visibility="{Binding Path=Controller.IsLoading, Converter={StaticResource boolToVis}}" Height="10" VerticalAlignment="Bottom" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
