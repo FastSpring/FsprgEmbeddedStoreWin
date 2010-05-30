@@ -13,6 +13,7 @@ namespace TestApp
         {
             InitializeComponent();
             confirmationView.Visibility = Visibility.Hidden;
+            orderProcessTypeField.ItemsSource = OrderProcessType.GetAll();
 
             DataContext = new DataContext();
             DataContext.Controller = new Controller();
@@ -21,9 +22,10 @@ namespace TestApp
             DataContext.Parameters = new StoreParameters();
 
             // some defaulting
-            DataContext.Parameters.OrderProcess = "detail";
+            DataContext.Parameters.OrderProcessType = OrderProcessType.Detail;
             DataContext.Parameters.StoreId = "spootnik";
             DataContext.Parameters.ProductId = "fsembeddedstore";
+            DataContext.Parameters.Mode = Mode.Test;
         }
 
         private void DidReceiveOrder(object sender, DidReceiveOrderEventArgs args)

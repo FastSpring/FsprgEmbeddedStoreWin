@@ -6,11 +6,8 @@
         <TabControl Name="tabControl" SelectionChanged="tabControl_SelectionChanged">
             <TabItem Header="Settings" Name="settings">
                 <Grid>
-                    <Label Content="Order Process" Height="23" HorizontalAlignment="Left" Margin="7,18,0,0" Name="orderProcessLabel" VerticalAlignment="Top" Width="83" />
-                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="96,18,0,0" Name="orderProcessField" VerticalAlignment="Top" Width="140" TabIndex="0" Text="{Binding Path=Parameters.OrderProcess}">
-                        <ComboBoxItem Content="detail" />
-                        <ComboBoxItem Content="instant" />
-                    </ComboBox>
+                    <Label Content="Order Process" Height="23" HorizontalAlignment="Left" Margin="7,18,0,0" Name="orderProcessTypeLabel" VerticalAlignment="Top" Width="83" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="96,18,0,0" Name="orderProcessTypeField" VerticalAlignment="Top" Width="140" TabIndex="0" SelectedItem="{Binding Path=Parameters.OrderProcessType}" />
                     <Label Content="Store Id" Height="23" HorizontalAlignment="Left" Margin="7,47,0,0" Name="storeIdLabel" VerticalAlignment="Top" Width="83" />
                     <TextBox Height="23" Margin="96,49,0,0" Name="storeIdField" VerticalAlignment="Top" Text="{Binding Path=Parameters.StoreId}" TabIndex="1" HorizontalAlignment="Left" Width="140" />
                     <Label Content="Product Id" Height="23" Margin="258,47,0,0" Name="productIdLabel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
