@@ -1,6 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using FsprgEmbeddedStore;
+using TestApp.Properties;
+using System;
+using System.Configuration;
 
 namespace TestApp
 {
@@ -12,8 +15,12 @@ namespace TestApp
         public MainWindow()
         {
             InitializeComponent();
+
+            this.Closed += AppClosed;
+
             confirmationView.Visibility = Visibility.Hidden;
             orderProcessTypeField.ItemsSource = OrderProcessType.GetAll();
+            modelField.ItemsSource = Mode.GetAll();
 
             DataContext = new DataContext();
             DataContext.Controller = new Controller();
@@ -21,11 +28,12 @@ namespace TestApp
             DataContext.Controller.DidReceiveOrder += DidReceiveOrder;
             DataContext.Parameters = new StoreParameters();
 
-            // some defaulting
-            DataContext.Parameters.OrderProcessType = OrderProcessType.Detail;
-            DataContext.Parameters.StoreId = "spootnik";
-            DataContext.Parameters.ProductId = "fsembeddedstore";
-            DataContext.Parameters.Mode = Mode.Test;
+            foreach (SettingsProperty property in Settings.Default.Properties) {
+                string value = (string)Settings.Default[property.Name];
+                if (value.Length > 0) {
+                    DataContext.Parameters.Raw.Add(property.Name, value);
+                }
+            }
         }
 
         private void DidReceiveOrder(object sender, DidReceiveOrderEventArgs args)
@@ -51,6 +59,14 @@ namespace TestApp
             {
                 reloadButton_Click(sender, null);
             }
+        }
+
+        private void AppClosed(object sender, EventArgs args) {
+            Settings.Default.Reset();
+            foreach (var param in DataContext.Parameters.Raw) {
+                Settings.Default[param.Key] = param.Value;
+            }
+            Settings.Default.Save();
         }
 
         new DataContext DataContext

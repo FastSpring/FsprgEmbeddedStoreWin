@@ -152,7 +152,7 @@ namespace FsprgEmbeddedStore
             }
         }
         protected void SetValue(string key, string value) {
-            if (value == null) {
+            if (value == null || value.Length == 0) {
                 Raw.Remove(key);
             } else {
                 Raw[key] = value;
