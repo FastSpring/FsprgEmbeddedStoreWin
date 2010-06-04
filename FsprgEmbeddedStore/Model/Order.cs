@@ -3,17 +3,17 @@
 namespace FsprgEmbeddedStore.Model
 {
     public class Order {
-        private readonly PlistDict _raw;
+        private readonly Plist _raw;
 
-        private Order(PlistDict dict) {
-            _raw = dict;
+        private Order(Plist plist) {
+            _raw = plist;
         }
 
         public static Order Parse(string plistXml) {
-            return new Order(Plist.Parse(plistXml).Dict);
+            return new Order(Plist.Parse(plistXml));
         }
 
-        public PlistDict Raw {
+        public Plist Raw {
             get { return _raw; }
         }
 

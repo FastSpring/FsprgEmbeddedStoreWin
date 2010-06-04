@@ -8,7 +8,7 @@ using System.Globalization;
 
 namespace FsprgEmbeddedStore.Model
 {
-    public class Plist
+    public class Plist : PlistDict
     {
         private const string PLIST = "plist";
         private const string DICT = "dict";
@@ -22,15 +22,11 @@ namespace FsprgEmbeddedStore.Model
         private const string STRING = "string";
         private const string DATA = "data";
 
-        private readonly PlistDict _dict;
+        public XmlDocument OriginalDoc { internal set; get; }
 
-
-        private Plist(PlistDict dict)
-        {
-            _dict = dict;
+        private Plist(XmlDocument originalDoc, Dictionary<string, object> dict) : base(dict) {
+            OriginalDoc = originalDoc;
         }
-
-        public PlistDict Dict { get { return _dict; } }
 
         public static Plist Parse(string plistXml) {
             XmlDocument doc = new XmlDocument();
@@ -41,11 +37,8 @@ namespace FsprgEmbeddedStore.Model
 
         public static Plist Parse(XmlDocument plistDoc)
         {
-            return Parse(plistDoc.DocumentElement);
-        }
+            XmlElement plistE = plistDoc.DocumentElement;
 
-        public static Plist Parse(XmlElement plistE)
-        {
             if (!plistE.LocalName.Equals(PLIST))
             {
                 throw new Exception("Expected plist top element, was: " + plistE.LocalName);
@@ -58,10 +51,10 @@ namespace FsprgEmbeddedStore.Model
             }
             XmlElement dictE = (XmlElement)plistE.FirstChild;
 
-            return new Plist(ParseDict(dictE));
+            return new Plist(plistDoc, ParseDict(dictE));
         }
 
-        private static PlistDict ParseDict(XmlElement dictE) {
+        private static Dictionary<string, object> ParseDict(XmlElement dictE) {
             Dictionary<string, object> dict = new Dictionary<string, object>(dictE.ChildNodes.Count);
 
             IEnumerator childNodes = dictE.ChildNodes.GetEnumerator();
@@ -76,7 +69,7 @@ namespace FsprgEmbeddedStore.Model
                 }
             }
 
-            return new PlistDict(dict);
+            return dict;
         }
 
         private static object[] ParseArray(XmlElement listE) {
@@ -114,7 +107,7 @@ namespace FsprgEmbeddedStore.Model
                 case FALSE:
                     return false;
                 case DICT:
-                    return ParseDict(element);
+                    return new PlistDict(ParseDict(element));
                 default:
                     throw new Exception("Unexpected type: " + type);
             }
