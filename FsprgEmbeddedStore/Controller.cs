@@ -11,6 +11,7 @@ namespace FsprgEmbeddedStore
 {
     public class Controller : INotifyPropertyChanged
     {
+        private bool _isInitialLoad;
 
         private WebBrowser _webView;
         public WebBrowser WebView { 
@@ -29,24 +30,54 @@ namespace FsprgEmbeddedStore
         public event DidReceiveOrderEventHandler DidReceiveOrder;
 
         public void LoadWithParameters(StoreParameters parameters) {
+            _isInitialLoad = true;
             IsLoading = true;
             ChangeUserAgent("FSEmbeddedStore/1.0");
+
+            /*
+            StringBuilder resetCookiesJs = new StringBuilder();
+            resetCookiesJs.Append("javascript:void((function(){");
+            resetCookiesJs.Append("  alert('test');var a,b,c,e,f;");
+            resetCookiesJs.Append("  f=0;alert(document.cookie)");
+            resetCookiesJs.Append("  a=document.cookie.split('; ');");
+            resetCookiesJs.Append("  for(e=0;e<a.length&&a[e];e++){");
+            resetCookiesJs.Append("    f++;");
+            resetCookiesJs.Append("    for(b='.'+location.host;b;b=b.replace(/^(?:%5C.|[^%5C.]+)/,'')){");
+            resetCookiesJs.Append("      for(c=location.pathname;c;c=c.replace(/.$/,'')){");
+            resetCookiesJs.Append("        document.cookie=(a[e]+'; domain='+b+'; path='+c+'; expires='+new Date((new Date()).getTime()-1e11).toGMTString());");
+            resetCookiesJs.Append("      }");
+            resetCookiesJs.Append("    }");
+            resetCookiesJs.Append("  }");
+            resetCookiesJs.Append("})())");
+            WebView.Navigate(resetCookiesJs.ToString());
+            */
+
             WebView.Navigate(parameters.ToURL);
         }
 
         /**
-        public void LoadWithContentsOfFile(string path)
-        {
-        TODO
+         * loads content from a file with an .xml suffix.
+         */
+        public void LoadWithContentsOfFile(string path) {
+            _isInitialLoad = true;
+            IsLoading = true;
+
+            StreamReader reader = new StreamReader(path);
+            string plistXml = reader.ReadToEnd();
+            reader.Close();
+
+            Uri url = new Uri("file://" + path);
+            WebView.Navigate(url);
         }
-        */
 
         private bool _isLoading;
         public bool IsLoading { 
             get { return _isLoading; }
             internal set {
                 _isLoading = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("IsLoading"));
+                if (PropertyChanged != null) {
+                    PropertyChanged(this, new PropertyChangedEventArgs("IsLoading"));
+                }
             }
         }
         public bool IsSecure {
@@ -58,8 +89,7 @@ namespace FsprgEmbeddedStore
         public event PropertyChangedEventHandler PropertyChanged;
         protected void IsSecureChanged()
         {
-            if (this.PropertyChanged != null)
-            {
+            if (PropertyChanged != null) {
                 PropertyChanged(this, new PropertyChangedEventArgs("IsSecure"));
             }
         }
@@ -74,6 +104,11 @@ namespace FsprgEmbeddedStore
             IsLoading = false;
             IsSecureChanged();
 
+            if (_isInitialLoad) {
+                _isInitialLoad = false;
+                DidLoadStore(this, EventArgs.Empty);
+            }
+
             try
             {
                 var aMimetype = ((HTMLDocument)_webView.Document).mimeType;
@@ -81,17 +116,9 @@ namespace FsprgEmbeddedStore
                 {
                     string data = ((HTMLDocument)_webView.Document).documentElement.innerText;
 
-                    var beforeWriter = new StreamWriter("c:/temp/before.xml");
-                    beforeWriter.Write(data);
-                    beforeWriter.Close();
-
                     data = data.Replace("<!DOCTYPE plist (View Source for full doctype...)>", "");
                     data = data.Replace("\r\n-", "");
                     data = data.Substring(data.IndexOf("<?xml version="));
-
-                    var afterWriter = new StreamWriter("c:/temp/after.xml");
-                    afterWriter.Write(data);
-                    afterWriter.Close();
 
                     Order order = Order.Parse(data);
                     DidReceiveOrder(this, new DidReceiveOrderEventArgs(order));
