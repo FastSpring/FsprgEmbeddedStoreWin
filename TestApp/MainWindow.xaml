@@ -48,10 +48,10 @@
                         <BooleanToVisibilityConverter x:Key="boolToVis" />
                     </Grid.Resources>
 
-                    <WebBrowser Margin="6,35" Name="webBrowser" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
                     <Button Content="Reload" Height="23" HorizontalAlignment="Left" Margin="6,6,0,0" Name="reloadButton" VerticalAlignment="Top" Width="45" Click="reloadButton_Click" />
                     <TextBox Height="23" Margin="57,6,6,0" Name="urlField" VerticalAlignment="Top" Text="{Binding Path=Parameters.ToURL, Mode=OneWay}" Focusable="false"/>
-                    <ProgressBar HorizontalAlignment="Right" Margin="0,0,6,6" Name="loadingProgressBar" Width="100" IsIndeterminate="True" Visibility="{Binding Path=Controller.IsLoading, Converter={StaticResource boolToVis}}" Height="10" VerticalAlignment="Bottom" />
+                    <WebBrowser Margin="6,35,6,31" Name="webBrowser" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                    <ProgressBar HorizontalAlignment="Left" Margin="6,0,0,6" Name="loadingProgressBar" Width="100" IsIndeterminate="True" Visibility="{Binding Path=Controller.IsLoading, Converter={StaticResource boolToVis}}" Height="10" VerticalAlignment="Bottom" />
                     <Button Content="Save as ..." Height="23" HorizontalAlignment="Right" Margin="0,0,6,6" Name="saveAsButton" VerticalAlignment="Bottom" Width="75" Visibility="Hidden" Click="saveAsButton_Click" />
                 </Grid>
             </TabItem>
