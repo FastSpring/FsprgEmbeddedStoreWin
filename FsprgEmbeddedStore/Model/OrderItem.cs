@@ -25,9 +25,15 @@ namespace FsprgEmbeddedStore.Model {
         public Fulfillment Fulfillment {
             get { return new Fulfillment(Raw.GetDict("Fulfillment")); }
         }
+        /// <summary>
+        /// Shortcut for Fulfillment["license"].
+        /// </summary>
         public License License {
             get { return (License)Fulfillment["license"]; }
         }
+        /// <summary>
+        /// Shortcut for Fulfillment["download"].
+        /// </summary>
         public FileDownload FileDownload {
             get { return (FileDownload)Fulfillment["download"]; }
         }

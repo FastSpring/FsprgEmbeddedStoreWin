@@ -44,7 +44,9 @@ namespace FsprgEmbeddedStore.Model
         public string CustomerEmail {
             get { return Raw.GetString("CustomerEmail", ""); }
         }
-
+        /// <summary>
+        /// Shortcut for OrderItems[0].
+        /// </summary>
         public OrderItem FirstOrderItem {
             get {
                 var item = Raw.GetArray("OrderItems")[0];

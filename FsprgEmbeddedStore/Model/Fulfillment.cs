@@ -13,6 +13,11 @@ namespace FsprgEmbeddedStore.Model {
             get { return _raw; }
         }
 
+        /// <summary>
+        /// Information about the fulfillment.
+        /// </summary>
+        /// <param name="key">key type of fulfillment (e.g. license, download)</param>
+        /// <returns>Specific fulfillment information (FsprgLicense, FsprgFileDownload).</returns>
         public object this[string key] {
             get {
                 PlistDict item = Raw.GetDict(key);

@@ -23,6 +23,9 @@ namespace FsprgEmbeddedStore.Model {
         public string LicenseCompany {
             get { return Raw.GetString("LicenseCompany", ""); }
         }
+        /// <summary>
+        /// Shortcut for LicenseCodes[0].
+        /// </summary>
         public string FirstLicenseCode {
             get {
                 object[] licenseCodes = Raw.GetArray("LicenseCodes");

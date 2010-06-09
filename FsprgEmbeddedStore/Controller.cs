@@ -14,6 +14,9 @@ namespace FsprgEmbeddedStore
         private bool _isInitialLoad;
 
         private WebBrowser _webView;
+        /// <summary>
+        /// Attach <see cref="WebBrowser"/> instance to this controller.
+        /// </summary>
         public WebBrowser WebView { 
             set {
                 if (_webView != null)
@@ -26,9 +29,19 @@ namespace FsprgEmbeddedStore
             }
             get { return _webView; }
         }
+        /// <summary>
+        /// Occurs when the store has been loaded for the first time.
+        /// </summary>
         public event EventHandler DidLoadStore;
+        /// <summary>
+        /// Occurs when the order has been received.
+        /// </summary>
         public event DidReceiveOrderEventHandler DidReceiveOrder;
 
+        /// <summary>
+        /// Loads the store.
+        /// </summary>
+        /// <param name="parameters">Parameters to load the store with.</param>
         public void LoadWithParameters(StoreParameters parameters) {
             _isInitialLoad = true;
             IsLoading = true;
@@ -55,9 +68,10 @@ namespace FsprgEmbeddedStore
             WebView.Navigate(parameters.ToURL);
         }
 
-        /**
-         * loads content from a file with an .xml suffix.
-         */
+        /// <summary>
+        /// Loads content from a file with an .xml suffix and shows the order confirmation.
+        /// </summary>
+        /// <param name="path">Path to the file.</param>
         public void LoadWithContentsOfFile(string path) {
             _isInitialLoad = true;
             IsLoading = true;
@@ -71,6 +85,9 @@ namespace FsprgEmbeddedStore
         }
 
         private bool _isLoading;
+        /// <summary>
+        /// <code>true</code> if store is loading. Useful to show a progress indicator.
+        /// </summary>
         public bool IsLoading { 
             get { return _isLoading; }
             internal set {
@@ -80,6 +97,9 @@ namespace FsprgEmbeddedStore
                 }
             }
         }
+        /// <summary>
+        /// <code>true</code> if communication is secure.
+        /// </summary>
         public bool IsSecure {
             get {
                 return "Https".Equals(_webView.Source.Scheme);
