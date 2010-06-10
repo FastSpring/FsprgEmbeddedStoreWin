@@ -6,6 +6,8 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using FsprgEmbeddedStore.Model;
 using MSHTML;
+using System.Windows;
+using System.Windows.Media;
 
 namespace FsprgEmbeddedStore
 {
@@ -26,6 +28,7 @@ namespace FsprgEmbeddedStore
                 _webView = value;
                 _webView.Navigating += Navigating;
                 _webView.LoadCompleted += LoadCompleted;
+                _webView.SizeChanged += WebBrowserSizeChanged;
             }
             get { return _webView; }
         }
@@ -113,6 +116,10 @@ namespace FsprgEmbeddedStore
                 PropertyChanged(this, new PropertyChangedEventArgs("IsSecure"));
             }
         }
+        
+        private void WebBrowserSizeChanged(object sender, SizeChangedEventArgs args) {
+            AdjustResizableContent((int)Math.Round(args.NewSize.Height));
+        }
 
         private void Navigating(object sender, NavigatingCancelEventArgs args)
         {
@@ -131,6 +138,8 @@ namespace FsprgEmbeddedStore
 
             try
             {
+                AdjustResizableContent((int)Math.Round(_webView.ActualHeight));
+
                 var aMimetype = ((HTMLDocument)_webView.Document).mimeType;
                 if (aMimetype.ToLower().IndexOf("xml") > -1)
                 {
@@ -159,6 +168,43 @@ namespace FsprgEmbeddedStore
         private void ChangeUserAgent(string Agent)
         {
             UrlMkSetSessionOption(URLMON_OPTION_USERAGENT, Agent, Agent.Length, 0);
+        }
+
+        private void AdjustResizableContent(int browserWindowHeightPx) {
+            if (_webView.Document == null) {
+                return;
+            }
+
+            IHTMLElement resizableContentE = ((HTMLDocument)_webView.Document).getElementById("FsprgResizableContent");
+            if (resizableContentE == null) {
+                return;
+            }
+
+            IHTMLElement storePageNavigationE = null;
+            IHTMLElementCollection divEs = ((HTMLDocument)_webView.Document).getElementsByTagName("div");
+            foreach (IHTMLElement divE in divEs) {
+                if ("store-page-navigation".Equals(divE.className)) {
+                    storePageNavigationE = divE;
+                    break;
+                }
+            }
+            if (storePageNavigationE == null) {
+                return;
+            }
+
+            dynamic resizableContentEStyle = resizableContentE.getAttribute("currentStyle"); // see http://blog.stchur.com/2006/06/21/css-computed-style/
+            string paddingTopStr = resizableContentEStyle.paddingTop;
+            int paddingTopPx = int.Parse(paddingTopStr.TrimEnd(new char[] { 'p', 'x' }));
+            string paddingBottomStr = resizableContentEStyle.paddingBottom;
+            int paddingBottomPx = int.Parse(paddingBottomStr.TrimEnd(new char[] { 'p', 'x' }));
+
+            int storePageNavigationHeightPx = storePageNavigationE.getAttribute("clientHeight");
+
+            int newHeight = browserWindowHeightPx - paddingTopPx - paddingBottomPx - storePageNavigationHeightPx;
+            if (newHeight < 0) {
+                newHeight = 0;
+            }
+            resizableContentE.style.height = newHeight + "px";
         }
     }
 
