@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("Example1")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("FastSpring")]
 [assembly: AssemblyProduct("Example1")]
 [assembly: AssemblyCopyright("Copyright ©  2010")]
 [assembly: AssemblyTrademark("")]
