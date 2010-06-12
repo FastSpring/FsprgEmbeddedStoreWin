@@ -41,12 +41,12 @@ namespace TestApp
 
         private void DidLoadStore(object sender, EventArgs args) {
             _receivedOrder = null;
-            saveAsButton.Visibility = Visibility.Hidden;
+            saveAsButton.IsEnabled = false;
         }
 
         private void DidReceiveOrder(object sender, DidReceiveOrderEventArgs args) {
             _receivedOrder = args.Order;
-            saveAsButton.Visibility = Visibility.Visible;
+            saveAsButton.IsEnabled = true;
         }
 
         private void reloadButton_Click(object sender, RoutedEventArgs e) {
