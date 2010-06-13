@@ -7,7 +7,6 @@ using System.Windows.Navigation;
 using FsprgEmbeddedStore.Model;
 using MSHTML;
 using System.Windows;
-using System.Windows.Media;
 
 namespace FsprgEmbeddedStore
 {
@@ -48,25 +47,9 @@ namespace FsprgEmbeddedStore
         public void LoadWithParameters(StoreParameters parameters) {
             _isInitialLoad = true;
             IsLoading = true;
-            ChangeUserAgent("FSEmbeddedStore/1.0");
 
-            /*
-            StringBuilder resetCookiesJs = new StringBuilder();
-            resetCookiesJs.Append("javascript:void((function(){");
-            resetCookiesJs.Append("  alert('test');var a,b,c,e,f;");
-            resetCookiesJs.Append("  f=0;alert(document.cookie)");
-            resetCookiesJs.Append("  a=document.cookie.split('; ');");
-            resetCookiesJs.Append("  for(e=0;e<a.length&&a[e];e++){");
-            resetCookiesJs.Append("    f++;");
-            resetCookiesJs.Append("    for(b='.'+location.host;b;b=b.replace(/^(?:%5C.|[^%5C.]+)/,'')){");
-            resetCookiesJs.Append("      for(c=location.pathname;c;c=c.replace(/.$/,'')){");
-            resetCookiesJs.Append("        document.cookie=(a[e]+'; domain='+b+'; path='+c+'; expires='+new Date((new Date()).getTime()-1e11).toGMTString());");
-            resetCookiesJs.Append("      }");
-            resetCookiesJs.Append("    }");
-            resetCookiesJs.Append("  }");
-            resetCookiesJs.Append("})())");
-            WebView.Navigate(resetCookiesJs.ToString());
-            */
+            ChangeUserAgent("FSEmbeddedStore/1.0");
+            ResetCookies();
 
             WebView.Navigate(parameters.ToURL);
         }
@@ -168,6 +151,34 @@ namespace FsprgEmbeddedStore
         private void ChangeUserAgent(string Agent)
         {
             UrlMkSetSessionOption(URLMON_OPTION_USERAGENT, Agent, Agent.Length, 0);
+        }
+
+        private void ResetCookies() {
+            HTMLDocument document = (HTMLDocument)WebView.Document;
+            if (document == null) {
+                return;
+            }
+            if (document.cookie == null) {
+                return;
+            }
+
+            string[] cookies = document.cookie.Split(new string[] { "; " }, StringSplitOptions.None);
+            foreach (string cookie in cookies) {
+                string domain = document.location.host;
+
+                while (domain.Length > 0) {
+                    string path = document.location.pathname;
+                    while (path.Length > 0) {
+                        document.cookie = string.Format("{0}; domain={1}; path={2}; expires=Thu, 2 Aug 2001 20:47:11 UTC", cookie, domain, path);
+
+                        int slashIdx = path.LastIndexOf('/');
+                        path = slashIdx == -1 ? "" : path.Substring(0, slashIdx);
+                    }
+
+                    int dothIdx = domain.IndexOf('.');
+                    domain = dothIdx == -1 ? "" : domain.Substring(dothIdx + 1);
+                }
+            }
         }
 
         private void AdjustResizableContent(int browserWindowHeightPx) {
