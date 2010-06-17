@@ -10,9 +10,9 @@ using System.Windows;
 
 namespace FsprgEmbeddedStore
 {
-    public class Controller : INotifyPropertyChanged
-    {
+    public class Controller : INotifyPropertyChanged {
         private bool _isInitialLoad;
+        private bool _isLoading;
 
         private WebBrowser _webView;
         /// <summary>
@@ -31,6 +31,7 @@ namespace FsprgEmbeddedStore
             }
             get { return _webView; }
         }
+
         /// <summary>
         /// Occurs when the store has been loaded for the first time.
         /// </summary>
@@ -39,6 +40,10 @@ namespace FsprgEmbeddedStore
         /// Occurs when the order has been received.
         /// </summary>
         public event DidReceiveOrderEventHandler DidReceiveOrder;
+        /// <summary>
+        /// Delivers a PropertyChangedEvent for <code>IsLoading</code> and <code>IsSecure</code>.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Loads the store.
@@ -70,7 +75,6 @@ namespace FsprgEmbeddedStore
             WebView.Navigate(url);
         }
 
-        private bool _isLoading;
         /// <summary>
         /// <code>true</code> if store is loading. Useful to show a progress indicator.
         /// </summary>
@@ -96,8 +100,6 @@ namespace FsprgEmbeddedStore
                 }
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
         
         private void WebBrowserSizeChanged(object sender, SizeChangedEventArgs args) {
             AdjustResizableContent((int)Math.Round(args.NewSize.Height));

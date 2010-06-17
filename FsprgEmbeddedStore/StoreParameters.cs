@@ -6,8 +6,7 @@ using System.Text;
 namespace FsprgEmbeddedStore
 {
 
-    public class StoreParameters : INotifyPropertyChanged
-    {
+    public class StoreParameters : INotifyPropertyChanged {
         private const string LANGUAGE = "language";
         private const string ORDER_PROCESS_TYPE = @"orderProcessType";
         private const string STORE_ID = @"storeId";
@@ -33,18 +32,30 @@ namespace FsprgEmbeddedStore
             get { return GetValue(LANGUAGE); }
             set { SetValue(LANGUAGE, value); }
         }
+        /// <summary>
+        /// Required property.
+        /// </summary>
         public OrderProcessType OrderProcessType {
             get { return OrderProcessType.Parse(GetValue(ORDER_PROCESS_TYPE)); }
             set { SetValue(ORDER_PROCESS_TYPE, value.ToString()); }
         }
+        /// <summary>
+        /// Required property.
+        /// </summary>
         public string StoreId {
             get { return GetValue(STORE_ID); }
             set { SetValue(STORE_ID, value); }
         }
+        /// <summary>
+        /// Required property.
+        /// </summary>
         public string ProductId {
             get { return GetValue(PRODUCT_ID); }
             set { SetValue(PRODUCT_ID, value); }
         }
+        /// <summary>
+        /// Required property.
+        /// </summary>
         public Mode Mode {
             get { return Mode.Parse(GetValue(MODE)); }
             set { SetValue(MODE, value.ToString()); }
@@ -93,7 +104,10 @@ namespace FsprgEmbeddedStore
             get { return GetValue(CONTACT_PHONE); }
             set { SetValue(CONTACT_PHONE, value); }
         }
-
+        /// <summary>
+        /// Converts this parameter list to a FastSpring store URL.
+        /// </summary>
+        /// <returns>FastSpring store URL</returns>
         public Uri ToURL {
             get {
                 string storeIdEncoded = StoreId;
