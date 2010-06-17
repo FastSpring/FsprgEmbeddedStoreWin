@@ -1,0 +1,225 @@
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<title>Documentation FsprgEmbeddedStoreSDK for Windows</title>
+<link rel='stylesheet' href='README/style.css' type='text/css'/>
+<script src='README/jquery-1.4.2.js'></script>
+<script src='README/readme.js'></script>
+</head>
+<body>
+
+
+<h1 id='header'>FastSpring Embedded Store SDK for Windows</h1>
+<div id='summary'></div>
+
+
+# Introduction #
+<span class="abstract">Introduction to FastSpring's embedded store SDK for Windows.</span>
+
+TODO
+
+
+
+# FsprgEmbeddedStore Class Library #
+<span class="abstract">Class library to integrate the FastSpring store.</span>
+
+The FsprgEmbeddedStore class library consists mainly out of the `FsprgEmbeddedStore.Controller`.
+
+The `FsprgEmbeddedStore.Controller` controls the connected WebView (WebBrowser control). It provides functionality to load the store, to monitor the page loading progress and to test if the current connection is secure (https).
+
+In addition, it has some integration points defined as events. It gives notification of the initial load of the store and of order completion.
+
+	public class Controller : INotifyPropertyChanged {
+        public WebBrowser WebView { get; set; };
+
+        public event EventHandler DidLoadStore;
+        public event DidReceiveOrderEventHandler DidReceiveOrder;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void LoadWithParameters(StoreParameters parameters);
+        public void LoadWithContentsOfFile(string path);
+
+        public bool IsLoading { get; };
+        public bool IsSecure { get; };
+	}
+
+
+## How-to embed the class library ##
+
+TODO
+
+
+## How-to use the framework ##
+
+TODO
+
+### Example: AppController.h ###
+
+TODO
+
+
+## How-to provide a link to the web-store ##
+
+Sometimes users prefer to use a web-store instead of an embedded-store. Use `FsprgEmbeddedStore.StoreParameters` to build the web-store URL and open it inside the default browser by using `System.Diagnostics.Process.Start`.
+
+	private void openInBrowserButton_MouseDown(object sender, MouseButtonEventArgs e) {
+	    StoreParameters parameters = new StoreParameters();
+	    parameters.OrderProcessType = OrderProcessType.Detail;
+	    parameters.StoreId = "your_store";
+	    parameters.ProductId = "your_product";
+	    parameters.Mode = Mode.Test;
+	    System.Diagnostics.Process.Start(parameters.ToURL.ToString());
+	}
+
+
+## Order API ##
+
+The `FsprgEmbeddedStore.Model.Order` object represents the order confirmation returned via `FsprgEmbeddedStore.Controller`'s `DidReceiveOrder` event. To spare you plunging through the source files the following sections contain a real-life example and a compressed API documentation of `FsprgEmbeddedStore.Model.Order` and its referred classes.
+
+### Example ###
+
+Here's an example to show the most common case of grabbing a license number.
+
+	private void DidReceiveOrder(object sender, DidReceiveOrderEventArgs args) {
+		foreach(OrderItem item in args.Order.OrderItems) {
+		    if (item.ProductName.StartsWith("MyItemNamePrefix")) {
+		        string name = item.License.LicenseName;
+		        string serialNumber = item.License.FirstLicenseCode;
+		        if (item.ProductName.ToLower().Contains("upgrade")) {
+		            Console.Write("Upgrade purchase:\nName: {0}\nSerial #: {1}", name, serialNumber);
+		        } else {
+		            Console.Write("Full purchase:\nName: {0}\nSerial #: {1}", name, serialNumber);
+		        }
+		    }
+		}
+	}
+
+### FsprgEmbeddedStore.Model.Order ###
+
+	bool OrderIsTest
+	string OrderReference
+	string OrderLanguage
+	string OrderCurrency
+	decimal OrderTotal
+	string CustomerFirstName
+	string CustomerLastName
+	string CustomerCompany
+	string CustomerEmail
+	
+    /// <summary>
+    /// Shortcut for OrderItems[0].
+    /// </summary>
+	OrderItem FirstOrderItem
+	
+	OrderItem[] OrderItems
+
+### FsprgEmbeddedStore.Model.OrderItem ###
+
+	string ProductName
+	string ProductDisplay
+	decimal Quantity
+	Fulfillment Fulfillment
+	
+	/// <summary>
+    /// Shortcut for Fulfillment["license"].
+    /// </summary>
+	License License
+    
+	/// <summary>
+    /// Shortcut for Fulfillment["download"].
+    /// </summary>
+	FileDownload FileDownload
+
+### FsprgEmbeddedStore.Model.Fulfillment ###
+
+	/// <summary>
+	/// Information about the fulfillment.
+	/// </summary>
+	/// <param name="key">key type of fulfillment (e.g. license, download)</param>
+	/// <returns>Specific fulfillment information (FsprgLicense, FsprgFileDownload).</returns>
+	object this[string key]
+
+### FsprgEmbeddedStore.Model.License ###
+
+	string LicenseName
+	string LicenseEmail
+	string LicenseCompany
+
+    /// <summary>
+    /// Shortcut for LicenseCodes[0].
+    /// </summary>
+	string FirstLicenseCode
+
+	string[] LicenseCodes
+	PlistDict LicensePropertyList
+	Uri LicenseURL
+
+### FsprgEmbeddedStore.Model.FileDownload ###
+
+	Uri FileURL
+
+
+
+# Example1 #
+<span class="abstract">Example1 shows how to use FsprgEmbeddedStore.</span>
+
+Example1 presents the FastSpring store in detail mode. After receiving the order a short thank-you-note and a button will appear. The button opens a dialog box containing license information.
+
+![Example1 Screenshot](README/example1_screenshot.png "Example1 Screenshot")
+
+
+## How-to create Example1 application ##
+
+* Create Example1 as WPF app
+* Add FsprgEmbeddedStore project to Solution (Add existing project ...)
+* Add "FsprgEmbeddedStore" as reference to Example1 (Add Reference ...) 
+* Drag "WebBrowser" control from Toolbox to the panel
+* Code MainWindow.xaml.cs (see extract below)
+* Bind progress bar to `IsLoading` (Controller as DataContext) by using `BooleanToVisiblityConverter`
+* Bind lock image to `IsSecure` (Controller as DataContext) by using `BooleanToVisiblityConverter`
+
+### Extract from MainWindow.xaml.cs ###
+
+	public partial class MainWindow : Window {
+		public MainWindow() {
+		    InitializeComponent();
+
+		    // set parameters
+		    _parameters = new StoreParameters();
+			...
+
+		    // configure controller and provide it as DataContext to
+		    // access IsLoading property from XAML
+		    _controller = new Controller();
+		    _controller.DidLoadStore += DidLoadStore;
+		    _controller.DidReceiveOrder += DidReceiveOrder;
+		    _controller.WebView = webBrowser;
+		    DataContext = _controller;
+
+		    // load store
+		    _controller.LoadWithParameters(_parameters);
+		}
+	
+		private void DidLoadStore(object sender, EventArgs args) {
+	        _receivedOrder = null;
+	    	...
+		}
+	    private void DidReceiveOrder(object sender, DidReceiveOrderEventArgs args) {
+	        _receivedOrder = args.Order;
+			...
+	    }
+	}
+
+
+
+# TestApp #
+<span class="abstract">Explore FastSpring's parameters and shows you the native order confirmation result.</span>
+
+The Test application lets you explore FastSpring's parameters and shows you the native order confirmation result (XML plist format).
+
+![TestApp Settings Screenshot](README/testapp_settings_screenshot.png "TestApp Settings Screenshot")
+![TestApp Results Screenshot](README/testapp_results_screenshot.png "TestApp Results Screenshot")
+
+You can also store that confirmation result as a plist file and load it by using the `FsprgEmbeddedStore.Controller`'s `LoadWithContentsOfFile` method. It simplifies the development and testing of the order confirmation view.
+
+</body></html>
