@@ -42,7 +42,6 @@ namespace Example1 {
             DataContext = _controller;
 
             // load store
-            urlField.Text = _parameters.ToURL.ToString();
             _controller.LoadWithParameters(_parameters);
         }
 
