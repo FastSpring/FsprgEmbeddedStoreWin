@@ -10,30 +10,30 @@
                     <ComboBox Height="23" HorizontalAlignment="Left" Margin="96,18,0,0" Name="orderProcessTypeField" VerticalAlignment="Top" Width="140" SelectedItem="{Binding Path=Parameters.OrderProcessType}" />
                     <Label Content="Store Id" Height="23" HorizontalAlignment="Left" Margin="7,47,0,0" Name="storeIdLabel" VerticalAlignment="Top" Width="83" />
                     <TextBox Height="23" Margin="96,47,0,0" Name="storeIdField" VerticalAlignment="Top" Text="{Binding Path=Parameters.StoreId}" HorizontalAlignment="Left" Width="140" />
-                    <Label Content="Product Id" Height="23" Margin="257,45,0,0" Name="productIdLabel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
-                    <TextBox Height="23" Margin="346,45,0,0" Name="productIdField" VerticalAlignment="Top" Text="{Binding Path=Parameters.ProductId}" HorizontalAlignment="Left" Width="140" />
+                    <Label Content="Product Id" Height="23" Margin="301,45,0,0" Name="productIdLabel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
+                    <TextBox Height="23" Margin="390,45,0,0" Name="productIdField" VerticalAlignment="Top" Text="{Binding Path=Parameters.ProductId}" HorizontalAlignment="Left" Width="140" />
                     <Label Content="Mode" Height="23" HorizontalAlignment="Left" Margin="7,76,0,0" Name="modelLabel" VerticalAlignment="Top" Width="83" />
                     <ComboBox Height="23" HorizontalAlignment="Left" Margin="96,76,0,0" Name="modelField" VerticalAlignment="Top" Width="140" SelectedItem="{Binding Path=Parameters.Mode}" />
                     
                     <Separator Height="9" Margin="13,115,6,0" Name="separator1" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
                     <Label Content="Campaign" Height="23" HorizontalAlignment="Left" Margin="7,140,0,0" Name="campaignLabel" VerticalAlignment="Top" Width="83" />
                     <TextBox Height="23" Margin="96,140,0,0" Name="campaignField" VerticalAlignment="Top" Text="{Binding Path=Parameters.Campaign}" HorizontalAlignment="Left" Width="140" />
-                    <Label Content="Referrer" Height="23" Margin="257,140,0,0" Name="referrerLabel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
-                    <TextBox Height="23" Margin="346,140,0,0" Name="referrerField" VerticalAlignment="Top" Text="{Binding Path=Parameters.Referrer}" HorizontalAlignment="Left" Width="140" />
+                    <Label Content="Referrer" Height="23" Margin="301,140,0,0" Name="referrerLabel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
+                    <TextBox Height="23" Margin="390,140,0,0" Name="referrerField" VerticalAlignment="Top" Text="{Binding Path=Parameters.Referrer}" HorizontalAlignment="Left" Width="140" />
                     <Label Content="Option" Height="23" HorizontalAlignment="Left" Margin="7,169,0,0" Name="optionLabel" VerticalAlignment="Top" Width="83" />
                     <TextBox Height="23" Margin="96,169,0,0" Name="optionField" VerticalAlignment="Top" Text="{Binding Path=Parameters.Option}" HorizontalAlignment="Left" Width="140" />
-                    <Label Content="Source" Height="23" Margin="257,169,0,0" Name="sourceLabel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
-                    <TextBox Height="23" Margin="346,169,0,0" Name="sourceField" VerticalAlignment="Top" Text="{Binding Path=Parameters.Source}" HorizontalAlignment="Left" Width="140" />
+                    <Label Content="Source" Height="23" Margin="301,169,0,0" Name="sourceLabel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
+                    <TextBox Height="23" Margin="390,169,0,0" Name="sourceField" VerticalAlignment="Top" Text="{Binding Path=Parameters.Source}" HorizontalAlignment="Left" Width="140" />
 
                     <Separator Height="9" Margin="13,208,6,0" Name="separator2" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
                     <Label Content="Firstname" Height="23" HorizontalAlignment="Left" Margin="7,233,0,0" Name="contactFnameLabel" VerticalAlignment="Top" Width="83" />
                     <TextBox Height="23" Margin="96,233,0,0" Name="contactFnameField" VerticalAlignment="Top" Text="{Binding Path=Parameters.ContactFname}" HorizontalAlignment="Left" Width="140" />
-                    <Label Content="Lastname" Height="23" Margin="257,233,0,0" Name="contactLnameLabel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
-                    <TextBox Height="23" Margin="346,233,0,0" Name="contactLnameField" VerticalAlignment="Top" Text="{Binding Path=Parameters.ContactLname}" HorizontalAlignment="Left" Width="140" />
+                    <Label Content="Lastname" Height="23" Margin="301,233,0,0" Name="contactLnameLabel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
+                    <TextBox Height="23" Margin="390,233,0,0" Name="contactLnameField" VerticalAlignment="Top" Text="{Binding Path=Parameters.ContactLname}" HorizontalAlignment="Left" Width="140" />
                     <Label Content="Email" Height="23" HorizontalAlignment="Left" Margin="7,262,0,0" Name="contactEmailLabel" VerticalAlignment="Top" Width="83" />
                     <TextBox Height="23" Margin="96,262,0,0" Name="contactEmailField" VerticalAlignment="Top" Text="{Binding Path=Parameters.ContactEmail}" HorizontalAlignment="Left" Width="140" />
-                    <Label Content="Phone" Height="23" Margin="257,262,0,0" Name="contactPhoneLabel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
-                    <TextBox Height="23" Margin="346,262,0,0" Name="contactPhoneField" VerticalAlignment="Top" Text="{Binding Path=Parameters.ContactPhone}" HorizontalAlignment="Left" Width="140" />
+                    <Label Content="Phone" Height="23" Margin="301,262,0,0" Name="contactPhoneLabel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
+                    <TextBox Height="23" Margin="390,262,0,0" Name="contactPhoneField" VerticalAlignment="Top" Text="{Binding Path=Parameters.ContactPhone}" HorizontalAlignment="Left" Width="140" />
                     <Label Content="Company" Height="23" HorizontalAlignment="Left" Margin="7,291,0,0" Name="contactCompanyLabel" VerticalAlignment="Top" Width="83" />
                     <TextBox Height="23" Margin="96,291,0,0" Name="contactCompanyField" VerticalAlignment="Top" Text="{Binding Path=Parameters.ContactCompany}" HorizontalAlignment="Left" Width="140" />
 
