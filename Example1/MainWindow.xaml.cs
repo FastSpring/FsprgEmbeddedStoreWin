@@ -29,8 +29,8 @@ namespace Example1 {
             // set parameters
             _parameters = new StoreParameters();
             _parameters.OrderProcessType = OrderProcessType.Detail;
-            _parameters.StoreId = "spootnik";
-            _parameters.ProductId = "fsembeddedstore";
+            _parameters.StoreId = "your_store";
+            _parameters.ProductId = "your_product";
             _parameters.Mode = Mode.Test;
 
             // configure controller and provide it as DataContext to
@@ -72,6 +72,10 @@ namespace Example1 {
         private void confirmationShowLicenseButton_Click(object sender, RoutedEventArgs e) {
             string message = string.Format("Name: {0}\nEmail: {1}", _receivedOrder.CustomerLastName, _receivedOrder.CustomerEmail);
             MessageBox.Show(this, message, "Your License");
+        }
+
+        private void openInBrowserButton_MouseDown(object sender, MouseButtonEventArgs e) {
+            System.Diagnostics.Process.Start(_parameters.ToURL.ToString());
         }
     }
 }

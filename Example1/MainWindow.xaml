@@ -17,5 +17,17 @@
         <Label Content="Hi [Name]" Height="28" HorizontalAlignment="Stretch" Margin="6,70,6,0" Name="confirmationLabel1" VerticalAlignment="Top" Width="480" HorizontalContentAlignment="Center" FontWeight="Bold" Visibility="Hidden" />
         <Label Content="Thanks for buying a license!" Height="30" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="6,95,6,0" Name="confirmationLabel2" VerticalAlignment="Top" Width="480" FontWeight="Bold" Visibility="Hidden" />
         <Button Content="Your license ..." Height="23" HorizontalAlignment="Center" Margin="6,140,6,0" Name="confirmationShowLicenseButton" Width="90" VerticalAlignment="Top" Visibility="Hidden" Click="confirmationShowLicenseButton_Click" />
+
+        <TextBlock HorizontalAlignment="Right" Margin="0,0,10,5" Text="Open in Browser" Name="openInBrowserButton" VerticalAlignment="Bottom" MouseDown="openInBrowserButton_MouseDown" Cursor="Hand">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="TextDecorations" Value="Underline" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>            
+        </TextBlock>
     </Grid>
 </Window>
