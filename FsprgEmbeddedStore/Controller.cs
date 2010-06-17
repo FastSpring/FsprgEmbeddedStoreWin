@@ -80,6 +80,7 @@ namespace FsprgEmbeddedStore
                 _isLoading = value;
                 if (PropertyChanged != null) {
                     PropertyChanged(this, new PropertyChangedEventArgs("IsLoading"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("IsSecure"));
                 }
             }
         }
@@ -88,17 +89,15 @@ namespace FsprgEmbeddedStore
         /// </summary>
         public bool IsSecure {
             get {
-                return "Https".Equals(_webView.Source.Scheme);
+                if (IsLoading || _webView == null || _webView.Source == null) {
+                    return false;
+                } else {
+                    return "https".Equals(_webView.Source.Scheme, StringComparison.OrdinalIgnoreCase);
+                }
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void IsSecureChanged()
-        {
-            if (PropertyChanged != null) {
-                PropertyChanged(this, new PropertyChangedEventArgs("IsSecure"));
-            }
-        }
         
         private void WebBrowserSizeChanged(object sender, SizeChangedEventArgs args) {
             AdjustResizableContent((int)Math.Round(args.NewSize.Height));
@@ -112,7 +111,6 @@ namespace FsprgEmbeddedStore
         private void LoadCompleted(object sender, NavigationEventArgs args)
         {
             IsLoading = false;
-            IsSecureChanged();
 
             if (_isInitialLoad) {
                 _isInitialLoad = false;

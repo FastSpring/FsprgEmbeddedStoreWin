@@ -9,8 +9,10 @@
 
         <Button Content="Reload" Height="23" HorizontalAlignment="Left" Name="reloadButton" VerticalAlignment="Top" Width="55" Margin="5,5,0,0" Click="reloadButton_Click" />
         <TextBox Height="23" HorizontalAlignment="Stretch" Margin="65,5,5,0" Name="urlField" VerticalAlignment="Top" IsReadOnly="True" />
-        <WebBrowser HorizontalAlignment="Stretch" Name="webBrowser" VerticalAlignment="Stretch" Margin="5,34,5,21" />
-        <ProgressBar Height="10" HorizontalAlignment="Right" Margin="0,0,5,5" Name="progressBar" VerticalAlignment="Bottom" Width="100"  IsIndeterminate="True" Visibility="{Binding Path=IsLoading, Converter={StaticResource boolToVis}}"/>
+        <WebBrowser HorizontalAlignment="Stretch" Name="webBrowser" VerticalAlignment="Stretch" Margin="5,34,5,25" />
+
+        <ProgressBar Height="10" HorizontalAlignment="Left" Margin="5,0,0,5" Name="progressBar" VerticalAlignment="Bottom" Width="100" IsIndeterminate="True" Visibility="{Binding Path=IsLoading, Converter={StaticResource boolToVis}}"/>
+        <Image Width="16" Height="16" HorizontalAlignment="Left" Margin="5,0,0,5" Name="isSecureImage" VerticalAlignment="Bottom" Visibility="{Binding Path=IsSecure, Converter={StaticResource boolToVis}}" Source="/Example1;component/lock.png" />
 
         <Label Content="Hi [Name]" Height="28" HorizontalAlignment="Stretch" Margin="6,70,6,0" Name="confirmationLabel1" VerticalAlignment="Top" Width="480" HorizontalContentAlignment="Center" FontWeight="Bold" Visibility="Hidden" />
         <Label Content="Thanks for buying a license!" Height="30" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="6,95,6,0" Name="confirmationLabel2" VerticalAlignment="Top" Width="480" FontWeight="Bold" Visibility="Hidden" />
