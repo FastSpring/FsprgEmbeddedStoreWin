@@ -8,15 +8,19 @@
 </head>
 <body>
 
+<img id="logo" src="README/fastspring_logo.png"/>
 
 <h1 id='header'>FastSpring Embedded Store SDK for Windows</h1>
 <div id='summary'></div>
 
 
+
 # Introduction #
 <span class="abstract">Introduction to FastSpring's embedded store SDK for Windows.</span>
 
-TODO
+FastSpring's embedded store consists of a controller with some integration points and WPF's WebBrowser control. It's thin and very flexible and lets you integrate FastSpring the way that fits best for your application.
+
+To get an idea of how it works the SDK provides an example and a test application. FastSpring only provides [FsprgEmbeddedStore class library's source code](src/FsprgEmbeddedStore) as VisualStudio project. It's straight forward to integrate, eases debugging and gives you a better understanding of what happens behind the scenes. The test application requires Windows XP or higher. All source code is released under the [MIT license](License.txt). It is open to contributions and its use is unrestricted.
 
 
 
@@ -46,16 +50,10 @@ In addition, it has some integration points defined as events. It gives notifica
 
 ## How-to embed the class library ##
 
-TODO
-
-
-## How-to use the framework ##
-
-TODO
-
-### Example: AppController.h ###
-
-TODO
+* Add FsprgEmbeddedStore project to Solution (Add existing project ...)
+* Add "FsprgEmbeddedStore" as reference (Add Reference ...) 
+* Drag "WebBrowser" control from Toolbox to the panel
+* Code MainWindow.xaml.cs and adjust MainWindow.xaml. Example1 app is providing an example how to implement the MainWindow.xaml.cs in detail.
 
 
 ## How-to provide a link to the web-store ##
@@ -170,11 +168,9 @@ Example1 presents the FastSpring store in detail mode. After receiving the order
 
 ## How-to create Example1 application ##
 
-* Create Example1 as WPF app
-* Add FsprgEmbeddedStore project to Solution (Add existing project ...)
-* Add "FsprgEmbeddedStore" as reference to Example1 (Add Reference ...) 
-* Drag "WebBrowser" control from Toolbox to the panel
-* Code MainWindow.xaml.cs (see extract below)
+* Attach DidLoadStore and DidReceiveOrder event implementations
+* Set WebBrowser control to Controller.WebView
+* Provide Controller as DataContext to bind it inside MainWindow.xaml
 * Bind progress bar to `IsLoading` (Controller as DataContext) by using `BooleanToVisiblityConverter`
 * Bind lock image to `IsSecure` (Controller as DataContext) by using `BooleanToVisiblityConverter`
 
