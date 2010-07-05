@@ -119,29 +119,18 @@ namespace FsprgEmbeddedStore
                 DidLoadStore(this, EventArgs.Empty);
             }
 
-            try
-            {
-                AdjustResizableContent((int)Math.Round(_webView.ActualHeight));
+            AdjustResizableContent((int)Math.Round(_webView.ActualHeight));
 
-                var aMimetype = ((HTMLDocument)_webView.Document).mimeType;
-                if (aMimetype.ToLower().IndexOf("xml") > -1)
-                {
-                    string data = ((HTMLDocument)_webView.Document).documentElement.innerText;
+            var aMimetype = ((HTMLDocument)_webView.Document).mimeType;
+            if (aMimetype.ToLower().IndexOf("xml") > -1) {
+                string data = ((HTMLDocument)_webView.Document).documentElement.innerText;
 
-                    data = data.Replace("<!DOCTYPE plist (View Source for full doctype...)>", "");
-                    data = data.Replace("\r\n-", "");
-                    data = data.Substring(data.IndexOf("<?xml version="));
+                data = data.Replace("<!DOCTYPE plist (View Source for full doctype...)>", "");
+                data = data.Replace("\r\n-", "");
+                data = data.Substring(data.IndexOf("<?xml version="));
 
-                    Order order = Order.Parse(data);
-                    DidReceiveOrder(this, new DidReceiveOrderEventArgs(order));
-                }
-            }
-            catch (Exception e)
-            {
-                var errorWriter = new StreamWriter("c:/temp/error.txt");
-                errorWriter.WriteLine(e.Message);
-                errorWriter.Write(e.StackTrace);
-                errorWriter.Close();
+                Order order = Order.Parse(data);
+                DidReceiveOrder(this, new DidReceiveOrderEventArgs(order));
             }
         }
 
