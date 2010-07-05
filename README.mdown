@@ -66,6 +66,7 @@ Sometimes users prefer to use a web-store instead of an embedded-store. Use `Fsp
 	    parameters.StoreId = "your_store";
 	    parameters.ProductId = "your_product";
 	    parameters.Mode = Mode.Test;
+        parameters.Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
 	    System.Diagnostics.Process.Start(parameters.ToURL.ToString());
 	}
 

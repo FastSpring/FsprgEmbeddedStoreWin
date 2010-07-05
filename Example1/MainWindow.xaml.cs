@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FsprgEmbeddedStore;
 using FsprgEmbeddedStore.Model;
+using System.Globalization;
 
 namespace Example1 {
     /// <summary>
@@ -32,6 +33,7 @@ namespace Example1 {
             _parameters.StoreId = "your_store";
             _parameters.ProductId = "your_product";
             _parameters.Mode = Mode.Test;
+            _parameters.Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
 
             // configure controller and provide it as DataContext to
             // access IsLoading property from XAML
