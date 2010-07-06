@@ -7,6 +7,8 @@ using System.Windows.Navigation;
 using FsprgEmbeddedStore.Model;
 using MSHTML;
 using System.Windows;
+using System.Text;
+using Utilities.WebBrowser;
 
 namespace FsprgEmbeddedStore
 {
@@ -53,8 +55,9 @@ namespace FsprgEmbeddedStore
             _isInitialLoad = true;
             IsLoading = true;
 
-            ChangeUserAgent("FSEmbeddedStore/1.0");
+            ExpandUserAgent("FSEmbeddedStore/1.0");
             ResetCookies();
+            WebBrowserHelper.ClearCache();
 
             WebView.Navigate(parameters.ToURL);
         }
@@ -135,11 +138,18 @@ namespace FsprgEmbeddedStore
         }
 
         [DllImport("urlmon.dll", CharSet = CharSet.Ansi)]
+        private static extern int UrlMkGetSessionOption(int dwOption, StringBuilder pBuffer, int dwBufferLength, ref int pdwBufferLength, int dwReserved);
+        [DllImport("urlmon.dll", CharSet = CharSet.Ansi)]
         private static extern int UrlMkSetSessionOption(int dwOption, string pBuffer, int dwBufferLength, int dwReserved);
         const int URLMON_OPTION_USERAGENT = 0x10000001;
-        private void ChangeUserAgent(string Agent)
+        private void ExpandUserAgent(string newSuffix)
         {
-            UrlMkSetSessionOption(URLMON_OPTION_USERAGENT, Agent, Agent.Length, 0);
+            StringBuilder userAgent = new StringBuilder(255);
+            int returnLength = 0;
+            UrlMkGetSessionOption(URLMON_OPTION_USERAGENT, userAgent, userAgent.Capacity, ref returnLength, 0);
+
+            string newUserAgent = userAgent.ToString() + " " + newSuffix;
+            UrlMkSetSessionOption(URLMON_OPTION_USERAGENT, newUserAgent, newUserAgent.Length, 0);
         }
 
         private void ResetCookies() {
