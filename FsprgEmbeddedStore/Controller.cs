@@ -124,7 +124,14 @@ namespace FsprgEmbeddedStore
 
             AdjustResizableContent((int)Math.Round(_webView.ActualHeight));
 
-            var aMimetype = ((HTMLDocument)_webView.Document).mimeType;
+            string aMimetype;
+            try {
+                aMimetype = ((HTMLDocument)_webView.Document).mimeType;
+            } catch (Exception e) {
+                // The document has no valid mime type, so it's likely a PayPal page. No problem.
+                aMimetype = "Undefined";
+            }
+
             if (aMimetype.ToLower().IndexOf("xml") > -1) {
                 string data = ((HTMLDocument)_webView.Document).documentElement.innerText;
 
