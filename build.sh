@@ -9,10 +9,10 @@ rm -R -f FsprgEmbeddedStoreWinSDK
 zip -r FsprgEmbeddedStoreStyle FsprgEmbeddedStoreStyle -x *.svn* *.DS_Store*
 mv FsprgEmbeddedStoreStyle.zip FsprgEmbeddedStoreWinSDK 
 
-# README.html
-mkdir -p FsprgEmbeddedStoreWinSDK/README
-cp -R -f README/* FsprgEmbeddedStoreWinSDK/README
-perl ./Markdown_1.0.1/Markdown.pl --html4tags README.mdown >> ./FsprgEmbeddedStoreWinSDK/README.html
+# HOW_TO.html
+mkdir -p FsprgEmbeddedStoreWinSDK/HOW_TO
+cp -R -f HOW_TO/* FsprgEmbeddedStoreWinSDK/HOW_TO
+perl ./Markdown_1.0.1/Markdown.pl --html4tags HOW_TO.mdown >> ./FsprgEmbeddedStoreWinSDK/HOW_TO.html
 
 # License.txt
 cp -R License.txt FsprgEmbeddedStoreWinSDK
