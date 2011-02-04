@@ -2,13 +2,13 @@
 <head>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8">
 <title>Documentation FsprgEmbeddedStoreSDK for Windows</title>
-<link rel='stylesheet' href='README/style.css' type='text/css'/>
-<script src='README/jquery-1.4.2.js'></script>
-<script src='README/readme.js'></script>
+<link rel='stylesheet' href='HOW_TO/style.css' type='text/css'/>
+<script src='HOW_TO/jquery-1.4.2.js'></script>
+<script src='HOW_TO/how_to.js'></script>
 </head>
 <body>
 
-<img id="logo" src="README/fastspring_logo.png"/>
+<img id="logo" src="HOW_TO/fastspring_logo.png"/>
 
 <h1 id='header'>FastSpring Embedded Store SDK for Windows</h1>
 <div id='summary'></div>
@@ -164,7 +164,7 @@ Here's an example to show the most common case of grabbing a license number.
 
 Example1 presents the FastSpring store in detail mode. After receiving the order a short thank-you-note and a button will appear. The button opens a dialog box containing license information.
 
-![Example1 Screenshot](README/example1_screenshot.png "Example1 Screenshot")
+![Example1 Screenshot](HOW_TO/example1_screenshot.png "Example1 Screenshot")
 
 
 ## How-to create Example1 application ##
@@ -214,8 +214,8 @@ Example1 presents the FastSpring store in detail mode. After receiving the order
 
 The Test application lets you explore FastSpring's parameters and shows you the native order confirmation result (XML plist format).
 
-![TestApp Settings Screenshot](README/testapp_settings_screenshot.png "TestApp Settings Screenshot")
-![TestApp Results Screenshot](README/testapp_results_screenshot.png "TestApp Results Screenshot")
+![TestApp Settings Screenshot](HOW_TO/testapp_settings_screenshot.png "TestApp Settings Screenshot")
+![TestApp Results Screenshot](HOW_TO/testapp_results_screenshot.png "TestApp Results Screenshot")
 
 You can also store that confirmation result as a plist file and load it by using the `FsprgEmbeddedStore.Controller`'s `LoadWithContentsOfFile` method. It simplifies the development and testing of the order confirmation view.
 
