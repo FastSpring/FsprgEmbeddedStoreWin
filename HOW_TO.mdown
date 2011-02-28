@@ -31,12 +31,13 @@ The FsprgEmbeddedStore class library consists mainly out of the `FsprgEmbeddedSt
 
 The `FsprgEmbeddedStore.Controller` controls the connected WebView (WebBrowser control). It provides functionality to load the store, to monitor the page loading progress and to test if the current connection is secure (https).
 
-In addition, it has some integration points defined as events. It gives notification of the initial load of the store and of order completion.
+In addition, it has some integration points defined as events. It gives notification of the initial load of the store, the subsequent page loads and of order completion.
 
 	public class Controller : INotifyPropertyChanged {
         public WebBrowser WebView { get; set; };
 
-        public event EventHandler DidLoadStore;
+        public event DidLoadStoreHandler DidLoadStore;
+        public event DidLoadPageEventHandler DidLoadPage;
         public event DidReceiveOrderEventHandler DidReceiveOrder;
         public event PropertyChangedEventHandler PropertyChanged;
 
