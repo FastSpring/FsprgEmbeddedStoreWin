@@ -56,6 +56,7 @@
                     <ProgressBar HorizontalAlignment="Left" Margin="6,0,0,6" Name="loadingProgressBar" Width="100" IsIndeterminate="True" Visibility="{Binding Path=Controller.IsLoading, Converter={StaticResource boolToVis}}" Height="10" VerticalAlignment="Bottom" />
                     <Button Content="Save as ..." Height="23" HorizontalAlignment="Right" Margin="0,0,6,6" Name="saveAsButton" VerticalAlignment="Bottom" Width="75" IsEnabled="False" Click="saveAsButton_Click" />
                     <Image Width="16" Height="16" HorizontalAlignment="Left" Margin="6,0,0,6" Name="isSecureImage" VerticalAlignment="Bottom" Visibility="{Binding Path=Controller.IsSecure, Converter={StaticResource boolToVis}}" Source="/TestApp;component/lock.png" />
+                    <Label Name="previewPageType" Height="23" Margin="0,0,0,6" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontWeight="Bold"  />
                 </Grid>
             </TabItem>
         </TabControl>

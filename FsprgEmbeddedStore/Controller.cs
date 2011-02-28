@@ -13,7 +13,7 @@ using Utilities.WebBrowser;
 namespace FsprgEmbeddedStore
 {
     public class Controller : INotifyPropertyChanged {
-        private bool _isInitialLoad;
+        private string _storeHost;
         private bool _isLoading;
 
         private WebBrowser _webView;
@@ -37,7 +37,11 @@ namespace FsprgEmbeddedStore
         /// <summary>
         /// Occurs when the store has been loaded for the first time.
         /// </summary>
-        public event EventHandler DidLoadStore;
+        public event DidLoadStoreHandler DidLoadStore;
+        /// <summary>
+        /// Gets called on subsequent page loads.
+        /// </summary>
+        public event DidLoadPageEventHandler DidLoadPage;
         /// <summary>
         /// Occurs when the order has been received.
         /// </summary>
@@ -52,7 +56,7 @@ namespace FsprgEmbeddedStore
         /// </summary>
         /// <param name="parameters">Parameters to load the store with.</param>
         public void LoadWithParameters(StoreParameters parameters) {
-            _isInitialLoad = true;
+            StoreHost = null;
             IsLoading = true;
 
             ExpandUserAgent("FSEmbeddedStore/1.0");
@@ -67,7 +71,7 @@ namespace FsprgEmbeddedStore
         /// </summary>
         /// <param name="path">Path to the file.</param>
         public void LoadWithContentsOfFile(string path) {
-            _isInitialLoad = true;
+            StoreHost = null;
             IsLoading = true;
 
             StreamReader reader = new StreamReader(path);
@@ -103,7 +107,14 @@ namespace FsprgEmbeddedStore
                 }
             }
         }
-        
+
+        public string StoreHost {
+            get { return _storeHost; }
+            internal set {
+                _storeHost = value;
+            }
+        }
+
         private void WebBrowserSizeChanged(object sender, SizeChangedEventArgs args) {
             AdjustResizableContent((int)Math.Round(args.NewSize.Height));
         }
@@ -117,12 +128,30 @@ namespace FsprgEmbeddedStore
         {
             IsLoading = false;
 
-            if (_isInitialLoad) {
-                _isInitialLoad = false;
-                DidLoadStore(this, EventArgs.Empty);
+            AdjustResizableContent((int)Math.Round(_webView.ActualHeight));
+
+            Uri newUri = args.Uri;
+            string newStoreHost;
+            if ("file".Equals(newUri.Scheme, StringComparison.CurrentCultureIgnoreCase)) {
+                newStoreHost = "file";
+            } else {
+                newStoreHost = newUri.Host;
             }
 
-            AdjustResizableContent((int)Math.Round(_webView.ActualHeight));
+            if (StoreHost == null) {
+                StoreHost = newStoreHost;
+                DidLoadStore(this, new DidLoadStoreEventArgs(newUri));
+            } else {
+                PageType newPageType;
+                if (newStoreHost.Equals(StoreHost, StringComparison.CurrentCultureIgnoreCase)) {
+                    newPageType = PageType.FS;
+                } else if (newStoreHost.EndsWith("paypal.com")) {
+                    newPageType = PageType.PayPal;
+                } else {
+                    newPageType = PageType.Unknown;
+                }
+                DidLoadPage(this, new DidLoadPageEventArgs(newUri, newPageType));
+            }
 
             string aMimetype;
             try {
@@ -223,6 +252,32 @@ namespace FsprgEmbeddedStore
             }
             resizableContentE.style.height = newHeight + "px";
         }
+    }
+
+    public delegate void DidLoadStoreHandler(object sender, DidLoadStoreEventArgs e);
+    public class DidLoadStoreEventArgs : EventArgs {
+        public DidLoadStoreEventArgs(Uri uri)
+        {
+            Uri = uri;
+        }
+        public Uri Uri { get; internal set; }
+    }
+
+    public enum PageType {
+        FS,
+        PayPal,
+        Unknown
+    }
+    public delegate void DidLoadPageEventHandler(object sender, DidLoadPageEventArgs e);
+    public class DidLoadPageEventArgs : EventArgs
+    {
+        public DidLoadPageEventArgs(Uri uri, PageType pageType)
+        {
+            Uri = uri;
+            PageType = pageType;
+        }
+        public Uri Uri { get; internal set; }
+        public PageType PageType { get; internal set; }
     }
 
     public delegate void DidReceiveOrderEventHandler(object sender, DidReceiveOrderEventArgs e);

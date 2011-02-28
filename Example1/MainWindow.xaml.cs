@@ -47,7 +47,7 @@ namespace Example1 {
             _controller.LoadWithParameters(_parameters);
         }
 
-        private void DidLoadStore(object sender, EventArgs args) {
+        private void DidLoadStore(object sender, DidLoadStoreEventArgs args) {
             _receivedOrder = null;
 
             webBrowser.Visibility = Visibility.Visible;

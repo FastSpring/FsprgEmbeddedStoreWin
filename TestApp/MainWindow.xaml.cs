@@ -28,6 +28,7 @@ namespace TestApp
             DataContext.Controller = new Controller();
             DataContext.Controller.WebView = webBrowser;
             DataContext.Controller.DidLoadStore += DidLoadStore;
+            DataContext.Controller.DidLoadPage += DidLoadPage;
             DataContext.Controller.DidReceiveOrder += DidReceiveOrder;
             DataContext.Parameters = new StoreParameters();
 
@@ -39,9 +40,14 @@ namespace TestApp
             }
         }
 
-        private void DidLoadStore(object sender, EventArgs args) {
+        private void DidLoadStore(object sender, DidLoadStoreEventArgs args) {
             _receivedOrder = null;
             saveAsButton.IsEnabled = false;
+            previewPageType.Content = "@"+PageType.FS;
+        }
+
+        private void DidLoadPage(object sender, DidLoadPageEventArgs args) {
+            previewPageType.Content = "@"+args.PageType;
         }
 
         private void DidReceiveOrder(object sender, DidReceiveOrderEventArgs args) {
