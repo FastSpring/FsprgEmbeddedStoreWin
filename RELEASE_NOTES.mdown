@@ -1,0 +1,38 @@
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<title>Release Notes FsprgEmbeddedStoreSDK</title>
+<link rel='stylesheet' href='HOW_TO/style.css' type='text/css'/>
+</head>
+<body>
+
+<img id="logo" src="HOW_TO/fastspring_logo.png"/>
+
+<h1 id='header'>FastSpring Embedded Store SDK<br/>Release Notes</h1>
+
+
+
+
+# Release 1.0.3.0 #
+
+## URL on DidLoadStore and DidLoadPage ##
+Enhanced `Controller.DidLoadStore` and added `Controller.DidLoadPage`.
+
+	public class Controller : INotifyPropertyChanged {
+        public WebBrowser WebView { get; set; };
+
+        public event DidLoadStoreHandler DidLoadStore;
+        public event DidLoadPageEventHandler DidLoadPage;
+        public event DidReceiveOrderEventHandler DidReceiveOrder;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void LoadWithParameters(StoreParameters parameters);
+        public void LoadWithContentsOfFile(string path);
+
+        public bool IsLoading { get; };
+        public bool IsSecure { get; };
+	}
+
+`DidLoadPage` will be called on every subsequent page load after `DidLoadStore`. It gives the possibility to monitor the URL and resize the window appropriately based on the URL.
+
+</body></html>

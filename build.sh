@@ -14,6 +14,9 @@ mkdir -p FsprgEmbeddedStoreWinSDK/HOW_TO
 cp -R -f HOW_TO/* FsprgEmbeddedStoreWinSDK/HOW_TO
 perl ./Markdown_1.0.1/Markdown.pl --html4tags HOW_TO.mdown >> ./FsprgEmbeddedStoreWinSDK/HOW_TO.html
 
+# RELEASE_NOTES.html
+perl ./Markdown_1.0.1/Markdown.pl --html4tags RELEASE_NOTES.mdown >> ./FsprgEmbeddedStoreWinSDK/RELEASE_NOTES.html
+
 # License.txt
 cp -R License.txt FsprgEmbeddedStoreWinSDK
 
