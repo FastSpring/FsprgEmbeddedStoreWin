@@ -32,6 +32,9 @@ namespace FsprgEmbeddedStore.Model
         public decimal OrderTotal {
             get { return Raw.GetDecimal("OrderTotal", 0); }
         }
+        public decimal OrderTotalUSD {
+            get { return Raw.GetDecimal("OrderTotalUSD", 0); }
+        }
         public string CustomerFirstName {
             get { return Raw.GetString("CustomerFirstName", ""); }
         }

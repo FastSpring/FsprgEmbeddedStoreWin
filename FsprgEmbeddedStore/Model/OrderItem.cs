@@ -22,6 +22,12 @@ namespace FsprgEmbeddedStore.Model {
         public decimal Quantity {
             get { return Raw.GetDecimal("Quantity", 0); }
         }
+        public decimal ItemTotal {
+            get { return Raw.GetDecimal("ItemTotal", 0); }
+        }
+        public decimal ItemTotalUSD {
+            get { return Raw.GetDecimal("ItemTotalUSD", 0); }
+        }
         public Fulfillment Fulfillment {
             get { return new Fulfillment(Raw.GetDict("Fulfillment")); }
         }

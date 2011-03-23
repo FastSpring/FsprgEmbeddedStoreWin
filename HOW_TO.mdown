@@ -67,7 +67,7 @@ Sometimes users prefer to use a web-store instead of an embedded-store. Use `Fsp
 	    parameters.StoreId = "your_store";
 	    parameters.ProductId = "your_product";
 	    parameters.Mode = Mode.Test;
-        parameters.Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+	    parameters.Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
 	    System.Diagnostics.Process.Start(parameters.ToURL.ToString());
 	}
 
@@ -101,14 +101,15 @@ Here's an example to show the most common case of grabbing a license number.
 	string OrderLanguage
 	string OrderCurrency
 	decimal OrderTotal
+	decimal OrderTotalUSD
 	string CustomerFirstName
 	string CustomerLastName
 	string CustomerCompany
 	string CustomerEmail
 	
-    /// <summary>
-    /// Shortcut for OrderItems[0].
-    /// </summary>
+	/// <summary>
+	/// Shortcut for OrderItems[0].
+	/// </summary>
 	OrderItem FirstOrderItem
 	
 	OrderItem[] OrderItems
@@ -118,16 +119,18 @@ Here's an example to show the most common case of grabbing a license number.
 	string ProductName
 	string ProductDisplay
 	decimal Quantity
+	decimal ItemTotal
+	decimal ItemTotalUSD
 	Fulfillment Fulfillment
 	
 	/// <summary>
-    /// Shortcut for Fulfillment["license"].
-    /// </summary>
+	/// Shortcut for Fulfillment["license"].
+	/// </summary>
 	License License
-    
+	
 	/// <summary>
-    /// Shortcut for Fulfillment["download"].
-    /// </summary>
+	/// Shortcut for Fulfillment["download"].
+	/// </summary>
 	FileDownload FileDownload
 
 ### FsprgEmbeddedStore.Model.Fulfillment ###
@@ -144,12 +147,12 @@ Here's an example to show the most common case of grabbing a license number.
 	string LicenseName
 	string LicenseEmail
 	string LicenseCompany
-
-    /// <summary>
-    /// Shortcut for LicenseCodes[0].
-    /// </summary>
+	
+	/// <summary>
+	/// Shortcut for LicenseCodes[0].
+	/// </summary>
 	string FirstLicenseCode
-
+	
 	string[] LicenseCodes
 	PlistDict LicensePropertyList
 	Uri LicenseURL
