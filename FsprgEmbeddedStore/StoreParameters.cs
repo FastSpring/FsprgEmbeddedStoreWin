@@ -16,6 +16,7 @@ namespace FsprgEmbeddedStore
         private const string OPTION = @"option";
         private const string REFERRER = @"referrer";
         private const string SOURCE = @"source";
+        private const string COUPON = @"coupon";
         private const string CONTACT_FNAME = @"contact_fname";
         private const string CONTACT_LNAME = @"contact_lname";
         private const string CONTACT_EMAIL = @"contact_email";
@@ -28,6 +29,10 @@ namespace FsprgEmbeddedStore
             get { return _raw; }
         }
 
+        // <summary>
+        // Pass a language code via the URL to bypass automatic language detection.
+        // Example: de
+        // </summary>
         public string Language {
             get { return GetValue(LANGUAGE); }
             set { SetValue(LANGUAGE, value); }
@@ -41,6 +46,8 @@ namespace FsprgEmbeddedStore
         }
         /// <summary>
         /// Required property.
+        /// Store path name and product path name.
+        /// These are found in a full product URL such as sites.fastspring.com/STOREPATH/product/PRODUCTPATH
         /// </summary>
         public string StoreId {
             get { return GetValue(STORE_ID); }
@@ -48,6 +55,8 @@ namespace FsprgEmbeddedStore
         }
         /// <summary>
         /// Required property.
+        /// Store path name and product path name.
+        /// These are found in a full product URL such as sites.fastspring.com/STOREPATH/product/PRODUCTPATH
         /// </summary>
         public string ProductId {
             get { return GetValue(PRODUCT_ID); }
@@ -60,21 +69,47 @@ namespace FsprgEmbeddedStore
             get { return Mode.Parse(GetValue(MODE)); }
             set { SetValue(MODE, value.ToString()); }
         }
+        /// <summary>
+        /// Used for "External Tracking". Go to "Link Sources" inside SpringBoard.
+        /// Example: november_sale_post
+        /// </summary>
         public string Campaign {
             get { return GetValue(CAMPAIGN); }
             set { SetValue(CAMPAIGN, value); }
         }
+        /// <summary>
+        /// Used for advanced and atypical store configuration options.
+        /// </summary>
         public string Option {
             get { return GetValue(OPTION); }
             set { SetValue(OPTION, value); }
         }
+        /// <summary>
+        /// Pass a custom referrer via the URL to override the automatically detected referring URL (HTTP_REFERER).
+        /// The value passed in this parameter is available in notifications and data exports. If a value is 
+        /// passed in this parameter then no data will be stored from the HTTP_REFERER header.
+        /// Example: xyz123
+        /// </summary>
         public string Referrer {
             get { return GetValue(REFERRER); }
             set { SetValue(REFERRER, value); }
         }
+        /// <summary>
+        /// Used for "External Tracking". Go to "Link Sources" inside SpringBoard.
+        /// Example: my_blog
+        /// </summary>
         public string Source {
             get { return GetValue(SOURCE); }
             set { SetValue(SOURCE, value); }
+        }
+        /// <summary>
+        /// Pass a coupon code via the URL to automatically apply a coupon to the order so that the customer 
+        /// does not need to enter it. A corresponding coupon code must be setup and associated with a promotion.
+        /// Example: DECSPECIAL987
+        /// </summary>
+        public string Coupon {
+            get { return GetValue(COUPON); }
+            set { SetValue(COUPON, value); }
         }
 
         public bool HasContactDefaults() {
