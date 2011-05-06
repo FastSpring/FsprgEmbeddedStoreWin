@@ -28,6 +28,13 @@ namespace FsprgEmbeddedStore.Model {
         public decimal ItemTotalUSD {
             get { return Raw.GetDecimal("ItemTotalUSD", 0); }
         }
+        /// <summary>
+        /// This reference can be used to make calls to FastSpring's Subscription API.
+        /// See https://support.fastspring.com/entries/236487-api-subscriptions
+        /// </summary>
+        public string SubscriptionReference {
+            get { return Raw.GetString("SubscriptionReference", null); }
+        }
         public Fulfillment Fulfillment {
             get { return new Fulfillment(Raw.GetDict("Fulfillment")); }
         }

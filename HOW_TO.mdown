@@ -121,6 +121,11 @@ Here's an example to show the most common case of grabbing a license number.
 	decimal Quantity
 	decimal ItemTotal
 	decimal ItemTotalUSD
+	/// <summary>
+	/// This reference can be used to make calls to FastSpring's Subscription API.
+	/// See https://support.fastspring.com/entries/236487-api-subscriptions
+	/// </summary>
+	string SubscriptionReference
 	Fulfillment Fulfillment
 	
 	/// <summary>
