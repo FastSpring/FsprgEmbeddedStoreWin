@@ -4,3 +4,9 @@ TestApp/bin/
 TestApp/obj/
 Example1/bin/
 Example1/obj
+.DS_Store
+Example1/.DS_Store
+FsprgEmbeddedStore/.DS_Store
+TestApp.suo
+Example1.suo
+FsprgEmbeddedStore.suo
