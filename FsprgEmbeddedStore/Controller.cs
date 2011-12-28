@@ -140,7 +140,9 @@ namespace FsprgEmbeddedStore
 
             if (StoreHost == null) {
                 StoreHost = newStoreHost;
-                DidLoadStore(this, new DidLoadStoreEventArgs(newUri));
+                if (DidLoadStore != null) {
+                    DidLoadStore(this, new DidLoadStoreEventArgs(newUri));
+                }
             } else {
                 PageType newPageType;
                 if (newStoreHost.Equals(StoreHost, StringComparison.CurrentCultureIgnoreCase)) {
@@ -150,7 +152,9 @@ namespace FsprgEmbeddedStore
                 } else {
                     newPageType = PageType.Unknown;
                 }
-                DidLoadPage(this, new DidLoadPageEventArgs(newUri, newPageType));
+                if (DidLoadPage != null) {
+                    DidLoadPage(this, new DidLoadPageEventArgs(newUri, newPageType));
+                }
             }
 
             string aMimetype;
@@ -169,7 +173,9 @@ namespace FsprgEmbeddedStore
                 data = data.Substring(data.IndexOf("<?xml version="));
 
                 Order order = Order.Parse(data);
-                DidReceiveOrder(this, new DidReceiveOrderEventArgs(order));
+                if (DidReceiveOrder != null) {
+                    DidReceiveOrder(this, new DidReceiveOrderEventArgs(order));
+                }
             }
         }
 

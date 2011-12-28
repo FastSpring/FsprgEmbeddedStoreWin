@@ -211,7 +211,7 @@ namespace FsprgEmbeddedStore
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void ToURLChanged() {
-            if (this.PropertyChanged != null) {
+            if (PropertyChanged != null) {
                 PropertyChanged(this, new PropertyChangedEventArgs("ToURL"));
             }
         }
