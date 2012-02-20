@@ -157,7 +157,7 @@ Here's an example to show the most common case of grabbing a license number.
 
 Example1 presents the FastSpring store in detail mode. After receiving the order a short thank-you-note and a button will appear. The button opens a dialog box containing license information.
 
-![Example1 Screenshot](FsprgEmbeddedStoreWin/raw/master/README/example1_screenshot.png "Example1 Screenshot")
+![Example1 Screenshot](https://github.com/FastSpring/FsprgEmbeddedStoreWin/raw/master/README/example1_screenshot.png "Example1 Screenshot")
 
 
 ## How-to create Example1 application ##
@@ -206,7 +206,7 @@ Example1 presents the FastSpring store in detail mode. After receiving the order
 
 The Test application lets you explore FastSpring's parameters and shows you the native order confirmation result (XML plist format).
 
-![TestApp Settings Screenshot](FsprgEmbeddedStoreWin/raw/master/README/testapp_settings_screenshot.png "TestApp Settings Screenshot")&nbsp;
-![TestApp Results Screenshot](FsprgEmbeddedStoreWin/raw/master/README/testapp_results_screenshot.png "TestApp Results Screenshot")
+![TestApp Settings Screenshot](https://github.com/FastSpring/FsprgEmbeddedStoreWin/raw/master/README/testapp_settings_screenshot.png "TestApp Settings Screenshot")&nbsp;
+![TestApp Results Screenshot](https://github.com/FastSpring/FsprgEmbeddedStoreWin/raw/master/README/testapp_results_screenshot.png "TestApp Results Screenshot")
 
 You can also store that confirmation result as a plist file and load it by using the `FsprgEmbeddedStore.Controller`'s `LoadWithContentsOfFile` method. It simplifies the development and testing of the order confirmation view.
