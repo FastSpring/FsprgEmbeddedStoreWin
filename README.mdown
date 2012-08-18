@@ -4,7 +4,7 @@
 
 FastSpring's embedded store consists of a controller with some integration points and WPF's WebBrowser control. It's thin and very flexible and lets you integrate FastSpring the way that fits best for your application.
 
-To get an idea of how it works the SDK provides an example and a test application. FastSpring provides [FsprgEmbeddedStore class library's source code](src/FsprgEmbeddedStore) as VisualStudio project. It's straight forward to integrate, eases debugging and gives you a better understanding of what happens behind the scenes. The test application requires Windows XP or higher. All source code is released under the [MIT license](License.txt). It is open to contributions and its use is unrestricted.
+To get an idea of how it works the SDK provides an example and a test application. FastSpring provides FsprgEmbeddedStore class library's source code as VisualStudio project. It's straight forward to integrate, eases debugging and gives you a better understanding of what happens behind the scenes. The test application requires Windows XP or higher. All source code is released under the MIT license. It is open to contributions and its use is unrestricted.
 
 
 
