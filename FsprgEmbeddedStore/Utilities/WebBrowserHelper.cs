@@ -10,42 +10,25 @@ namespace Utilities.WebBrowser {
     static class WebBrowserHelper {
         #region Definitions/DLL Imports
         // For PInvoke: Contains information about an entry in the Internet cache
-        [StructLayout(LayoutKind.Explicit, Size = 80)]
-        public struct INTERNET_CACHE_ENTRY_INFOA {
-            [FieldOffset(0)]
-            public uint dwStructSize;
-            [FieldOffset(4)]
-            public IntPtr lpszSourceUrlName;
-            [FieldOffset(8)]
-            public IntPtr lpszLocalFileName;
-            [FieldOffset(12)]
-            public uint CacheEntryType;
-            [FieldOffset(16)]
-            public uint dwUseCount;
-            [FieldOffset(20)]
-            public uint dwHitRate;
-            [FieldOffset(24)]
-            public uint dwSizeLow;
-            [FieldOffset(28)]
-            public uint dwSizeHigh;
-            [FieldOffset(32)]
+        [StructLayout(LayoutKind.Sequential)]
+        public struct INTERNET_CACHE_ENTRY_INFO
+        {
+            public UInt32 dwStructSize;
+            public string lpszSourceUrlName;
+            public string lpszLocalFileName;
+            public UInt32 CacheEntryType;
+            public UInt32 dwUseCount;
+            public UInt32 dwHitRate;
+            public UInt32 dwSizeLow;
+            public UInt32 dwSizeHigh;
             public FILETIME LastModifiedTime;
-            [FieldOffset(40)]
             public FILETIME ExpireTime;
-            [FieldOffset(48)]
             public FILETIME LastAccessTime;
-            [FieldOffset(56)]
             public FILETIME LastSyncTime;
-            [FieldOffset(64)]
             public IntPtr lpHeaderInfo;
-            [FieldOffset(68)]
-            public uint dwHeaderInfoSize;
-            [FieldOffset(72)]
-            public IntPtr lpszFileExtension;
-            [FieldOffset(76)]
-            public uint dwReserved;
-            [FieldOffset(76)]
-            public uint dwExemptDelta;
+            public UInt32 dwHeaderInfoSize;
+            public string lpszFileExtension;
+            public UInt32 dwExemptDelta;
         }
         // For PInvoke: Initiates the enumeration of the cache groups in the Internet cache
         [DllImport(@"wininet",
@@ -107,7 +90,7 @@ namespace Utilities.WebBrowser {
             EntryPoint = "DeleteUrlCacheEntryA",
             CallingConvention = CallingConvention.StdCall)]
         public static extern bool DeleteUrlCacheEntry(
-            IntPtr lpszUrlName);
+            string lpszUrlName);
         #endregion
         #region Public Static Functions
         /// <summary>
@@ -129,7 +112,7 @@ namespace Utilities.WebBrowser {
             int cacheEntryInfoBufferSizeInitial = 0;
             int cacheEntryInfoBufferSize = 0;
             IntPtr cacheEntryInfoBuffer = IntPtr.Zero;
-            INTERNET_CACHE_ENTRY_INFOA internetCacheEntry;
+            INTERNET_CACHE_ENTRY_INFO internetCacheEntry;
             IntPtr enumHandle = IntPtr.Zero;
             bool returnValue = false;
             // Delete the groups first.
@@ -161,7 +144,7 @@ namespace Utilities.WebBrowser {
             cacheEntryInfoBuffer = Marshal.AllocHGlobal(cacheEntryInfoBufferSize);
             enumHandle = FindFirstUrlCacheEntry(null, cacheEntryInfoBuffer, ref cacheEntryInfoBufferSizeInitial);
             while (true) {
-                internetCacheEntry = (INTERNET_CACHE_ENTRY_INFOA)Marshal.PtrToStructure(cacheEntryInfoBuffer, typeof(INTERNET_CACHE_ENTRY_INFOA));
+                internetCacheEntry = (INTERNET_CACHE_ENTRY_INFO)Marshal.PtrToStructure(cacheEntryInfoBuffer, typeof(INTERNET_CACHE_ENTRY_INFO));
                 if (ERROR_NO_MORE_ITEMS == Marshal.GetLastWin32Error()) { break; }
                 cacheEntryInfoBufferSizeInitial = cacheEntryInfoBufferSize;
                 returnValue = DeleteUrlCacheEntry(internetCacheEntry.lpszSourceUrlName);
