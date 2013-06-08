@@ -159,7 +159,8 @@ namespace FsprgEmbeddedStore
 
             string aMimetype;
             try {
-                aMimetype = ((HTMLDocument)_webView.Document).mimeType;
+                MSHTML.IHTMLDocument2 doc = (MSHTML.IHTMLDocument2)_webView.Document;
+                aMimetype = doc.mimeType;
             } catch (Exception e) {
                 // The document has no valid mime type, so it's likely a PayPal page. No problem.
                 aMimetype = "Undefined";
