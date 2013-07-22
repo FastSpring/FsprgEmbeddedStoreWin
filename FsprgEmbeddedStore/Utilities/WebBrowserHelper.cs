@@ -114,7 +114,6 @@ namespace Utilities.WebBrowser {
             IntPtr cacheEntryInfoBuffer = IntPtr.Zero;
             INTERNET_CACHE_ENTRY_INFO internetCacheEntry;
             IntPtr enumHandle = IntPtr.Zero;
-            bool returnValue = false;
             // Delete the groups first.
             // Groups may not always exist on the system.
             // For more information, visit the following Microsoft Web site:
@@ -126,15 +125,15 @@ namespace Utilities.WebBrowser {
             if (enumHandle != IntPtr.Zero && ERROR_NO_MORE_ITEMS == Marshal.GetLastWin32Error())
                 return;
             // Loop through Cache Group, and then delete entries.
-            while (true) {
+            bool returnValue = true;
+            while (returnValue)
+            {
                 if (ERROR_NO_MORE_ITEMS == Marshal.GetLastWin32Error() || ERROR_FILE_NOT_FOUND == Marshal.GetLastWin32Error()) { break; }
                 // Delete a particular Cache Group.
                 returnValue = DeleteUrlCacheGroup(groupId, CACHEGROUP_FLAG_FLUSHURL_ONDELETE, IntPtr.Zero);
-                if (!returnValue && ERROR_FILE_NOT_FOUND == Marshal.GetLastWin32Error()) {
+                if (returnValue || (!returnValue && ERROR_FILE_NOT_FOUND == Marshal.GetLastWin32Error())) {
                     returnValue = FindNextUrlCacheGroup(enumHandle, ref groupId, IntPtr.Zero);
                 }
-                if (!returnValue && (ERROR_NO_MORE_ITEMS == Marshal.GetLastWin32Error() || ERROR_FILE_NOT_FOUND == Marshal.GetLastWin32Error()))
-                    break;
             }
             // Start to delete URLs that do not belong to any group.
             enumHandle = FindFirstUrlCacheEntry(null, IntPtr.Zero, ref cacheEntryInfoBufferSizeInitial);
